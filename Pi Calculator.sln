@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pi Calculator", "Pi Calculator\Pi Calculator.csproj", "{EE9615ED-36DC-487A-8E94-F12BC9B544CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculate Pi", "Calculate Pi\Calculate Pi.csproj", "{FBCFC625-B799-47B9-B357-15CF628964C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculate Pi.Tests", "Calculate Pi.Tests\Calculate Pi.Tests.csproj", "{55D843C9-4A7A-4300-A309-FA0D208F4329}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE9615ED-36DC-487A-8E94-F12BC9B544CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE9615ED-36DC-487A-8E94-F12BC9B544CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE9615ED-36DC-487A-8E94-F12BC9B544CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE9615ED-36DC-487A-8E94-F12BC9B544CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBCFC625-B799-47B9-B357-15CF628964C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBCFC625-B799-47B9-B357-15CF628964C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBCFC625-B799-47B9-B357-15CF628964C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBCFC625-B799-47B9-B357-15CF628964C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55D843C9-4A7A-4300-A309-FA0D208F4329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55D843C9-4A7A-4300-A309-FA0D208F4329}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55D843C9-4A7A-4300-A309-FA0D208F4329}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55D843C9-4A7A-4300-A309-FA0D208F4329}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
