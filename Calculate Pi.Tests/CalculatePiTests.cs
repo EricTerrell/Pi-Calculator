@@ -13,7 +13,7 @@ public class CalculatePiTests
     
     private void test_calculate_pi(string expectedValue, int digits)
     {
-        _calculatePiFactory.Algorithms.ForEach(algorithm =>
+        _calculatePiFactory.AlgorithmInfos.ForEach(algorithm =>
         {
             var result = _calculatePiFactory
                 .CreatePiCalculator(algorithm.Name)
@@ -47,7 +47,7 @@ public class CalculatePiTests
     {
         var values = new List<string>();
             
-        _calculatePiFactory.Algorithms.ForEach(algorithm =>
+        _calculatePiFactory.AlgorithmInfos.ForEach(algorithm =>
         {
             var result = _calculatePiFactory
                 .CreatePiCalculator(algorithm.Name)

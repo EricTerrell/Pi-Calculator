@@ -2,7 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        DataContext="MainWindow"
+        xmlns:calculatePi="clr-namespace:Calculate_Pi;assembly=Calculate Pi"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Pi_Calculator.MainWindow"
         Title="Pi Calculator">
@@ -17,8 +18,15 @@
 
         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="0, 10, 0, 10">
             <Label>Algorithm:</Label>
-            <ComboBox Name="Algorithms" Margin="10, 0, 0, 0" 
-                      SelectionChanged="Algorithms_OnSelectionChanged" />
+            <ComboBox Name="AlgorithmComboBox" Margin="10, 0, 0, 0" 
+                      ItemsSource="{Binding AlgorithmInfos}"
+                      SelectionChanged="Algorithms_OnSelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="calculatePi:AlgorithmInfo">
+                        <TextBlock Text="{Binding Name}"></TextBlock>
+                    </DataTemplate>                
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <HyperlinkButton Name="AlgorithmWebPage" Margin="10, 0, 0, 0">Web Page</HyperlinkButton>
         </StackPanel>
         

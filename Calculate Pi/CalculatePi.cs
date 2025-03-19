@@ -7,7 +7,7 @@ public abstract class CalculatePi
     private const int SpaceFreq = 10;
     private const int NewlineFreq = 100;
 
-    public virtual (string Name, string Url) Algorithm
+    public virtual AlgorithmInfo AlgorithmInfo
     {
         get;
     }

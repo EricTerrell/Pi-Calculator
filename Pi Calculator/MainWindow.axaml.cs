@@ -1,7 +1,6 @@
-using System.Linq;
-
 namespace Pi_Calculator;
 
+using System.Collections.Generic;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,19 +12,18 @@ public partial class MainWindow : Window
 {
     private CancellationTokenSource? _cancellationSource;
 
-    private readonly CalculatePiFactory _calculatePiFactory;
+    private readonly CalculatePiFactory _calculatePiFactory = new();
     
     private DateTime _cancellationStartTime;
+
+    public List<AlgorithmInfo> AlgorithmInfos => _calculatePiFactory.AlgorithmInfos;
 
     public MainWindow()
     {
         InitializeComponent();
+        DataContext = this;
 
-        _calculatePiFactory = new CalculatePiFactory();
-        
-        Algorithms.ItemsSource = _calculatePiFactory.Algorithms.Select(x => x.Name).ToList();
-        
-        Algorithms.SelectedIndex = 0;
+        AlgorithmComboBox.SelectedIndex = 0;
     }
 
     private async void CalculateButton_OnClick(object? sender, RoutedEventArgs e)
@@ -36,7 +34,7 @@ public partial class MainWindow : Window
             
             CalculateButton.IsEnabled = false;
             Digits.IsEnabled = false;
-            Algorithms.IsEnabled = false;
+            AlgorithmComboBox.IsEnabled = false;
 
             CancelButton.IsEnabled = true;
 
@@ -48,8 +46,10 @@ public partial class MainWindow : Window
 
             var progress = new Progress<string>(progressMessage => { Status.Content = progressMessage; });
 
+            var name = ((AlgorithmInfo) AlgorithmComboBox.SelectedItem).Name;
+            
             var result = await Task.Run(() => _calculatePiFactory
-                .CreatePiCalculator(Algorithms.SelectedItem.ToString())
+                .CreatePiCalculator(name)
                 .Pi(digits, _cancellationSource, progress));
 
             Result.Content = $"π =\n\n{result.digits}";
@@ -70,7 +70,7 @@ public partial class MainWindow : Window
             CalculateButton.IsEnabled = true;
             Digits.IsEnabled = true;
             CopyButton.IsEnabled = true;
-            Algorithms.IsEnabled = true;
+            AlgorithmComboBox.IsEnabled = true;
             
             CancelButton.IsEnabled = false;
         }
@@ -102,8 +102,11 @@ public partial class MainWindow : Window
 
     private void Algorithms_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        var url = _calculatePiFactory.Algorithms.Find(x => 
-            x.Name == Algorithms?.SelectedValue?.ToString()).Url;
+        var name = ((AlgorithmInfo)AlgorithmComboBox.SelectedValue).Name;
+
+        var url = _calculatePiFactory.AlgorithmInfos.Find(
+            x => x.Name == name
+        ).Url;
         
         AlgorithmWebPage.NavigateUri = new Uri(url);
     }

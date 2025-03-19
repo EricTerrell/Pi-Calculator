@@ -7,7 +7,8 @@ public class CalculatePiAndrewJennings : CalculatePi
     // http://ajennings.net/blog/a-million-digits-of-pi-in-9-lines-of-javascript.html
     // https://math.tools/numbers/pi/1000000
 
-    public override (string, string) Algorithm => ("Andrew Jennings", 
+    public override AlgorithmInfo AlgorithmInfo => new(
+        "Andrew Jennings",
         "http://ajennings.net/blog/a-million-digits-of-pi-in-9-lines-of-javascript.html");
 
     protected override string CalculatePiDigits(int digits, CancellationTokenSource? cancellationTokenSource, 

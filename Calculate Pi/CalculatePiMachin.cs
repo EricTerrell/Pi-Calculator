@@ -6,7 +6,8 @@ using ExtendedNumerics;
 
 public class CalculatePiMachin : CalculatePi
 {
-    public override (string, string) Algorithm => ("Machin", "https://www.cygnus-software.com/misc/pidigits.htm");
+    public override AlgorithmInfo AlgorithmInfo => 
+        new("Machin", "https://www.cygnus-software.com/misc/pidigits.htm");
 
     private static int LeadingZeros(BigDecimal x)
     {
