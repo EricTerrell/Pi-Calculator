@@ -3,6 +3,7 @@
 using ExtendedNumerics;
 
 // Based on https://www.cygnus-software.com/misc/pidigits.htm
+// Uses this BigDecimal implementation: https://www.nuget.org/packages/ExtendedNumerics.BigDecimal/
 
 public class CalculatePiMachin : CalculatePi
 {
@@ -24,7 +25,7 @@ public class CalculatePiMachin : CalculatePi
         return str.Length;
     }
     
-    private static BigDecimal ATanInvInt(int x, IProgress<string>? progress)
+    private static BigDecimal ATanInvInt(int x, IProgress<string>? progress, ref int iterations)
     {
         var result = BigDecimal.Divide(new BigDecimal(1), new BigDecimal(x));
         var xSquared = new BigDecimal(x * x);
@@ -48,7 +49,7 @@ public class CalculatePiMachin : CalculatePi
             
             result = BigDecimal.Add(result, BigDecimal.Divide(term, divisor));
             
-            progress?.Report($"{LeadingZeros(term):N0} digits");
+            progress?.Report($"{iterations++:N0} iterations");
         }
 
         return result;
@@ -62,10 +63,12 @@ public class CalculatePiMachin : CalculatePi
 
         numberOfDigits += 2; // want to calculate digits to the right of "3.".
 
+        var iterations = 0;
+        
         var digits = BigDecimal.Multiply(
             BigDecimal.Subtract(
-            BigDecimal.Multiply(ATanInvInt(5, progress), new BigDecimal(4)),
-            ATanInvInt(239, progress)),
+            BigDecimal.Multiply(ATanInvInt(5, progress, ref iterations), new BigDecimal(4)),
+            ATanInvInt(239, progress, ref iterations)),
             new BigDecimal(4));
                 
         return $"3{digits.ToString().Substring(2, numberOfDigits - 2)}";
