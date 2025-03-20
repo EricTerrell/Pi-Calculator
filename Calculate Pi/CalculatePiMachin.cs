@@ -24,7 +24,7 @@ public class CalculatePiMachin : CalculatePi
         return str.Length;
     }
     
-    private BigDecimal ATanInvInt(int x, IProgress<string>? progress)
+    private static BigDecimal ATanInvInt(int x, IProgress<string>? progress)
     {
         var result = BigDecimal.Divide(new BigDecimal(1), new BigDecimal(x));
         var xSquared = new BigDecimal(x * x);

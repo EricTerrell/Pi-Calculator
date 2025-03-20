@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 [TestSubject(typeof(CalculatePi))]
 public class CalculatePiTests
 {
-    private readonly CalculatePiFactory _calculatePiFactory = new CalculatePiFactory();
+    private readonly CalculatePiFactory _calculatePiFactory = new();
     
     private void test_calculate_pi(string expectedValue, int digits)
     {

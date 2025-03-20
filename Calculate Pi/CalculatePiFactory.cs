@@ -2,14 +2,14 @@
 
 public class CalculatePiFactory
 {
-    private readonly List<CalculatePi> piCalculators = [new CalculatePiAndrewJennings(), new CalculatePiMachin()];
+    private readonly List<CalculatePi> _piCalculators = [new CalculatePiAndrewJennings(), new CalculatePiMachin()];
 
     public List<AlgorithmInfo> AlgorithmInfos =>
-        piCalculators.Select(piCalculator => piCalculator.AlgorithmInfo).ToList();
+        _piCalculators.Select(piCalculator => piCalculator.AlgorithmInfo).ToList();
 
     public CalculatePi CreatePiCalculator(string algorithm)
     {
-        var piCalculator = piCalculators.Find(piCalculator => piCalculator.AlgorithmInfo.Name == algorithm);
+        var piCalculator = _piCalculators.Find(piCalculator => piCalculator.AlgorithmInfo.Name == algorithm);
 
         if (piCalculator == null)
         {
