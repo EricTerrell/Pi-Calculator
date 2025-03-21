@@ -7,53 +7,50 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Pi_Calculator.MainWindow"
         Title="Pi Calculator">
-    <Grid Margin="10, 10, 10, 0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
+    <Grid Margin="10, 10, 10, 0" RowDefinitions="Auto,Auto,*,Auto">
 
         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="0, 10, 0, 10">
-            <Label Target="AlgorithmComboBox">_Algorithm:</Label>
-            <ComboBox Name="AlgorithmComboBox" Margin="10, 0, 0, 0" 
-                      ItemsSource="{Binding AlgorithmInfos}"
-                      SelectionChanged="Algorithms_OnSelectionChanged"
-                      IsEnabled="{Binding !IsCalculating}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate x:DataType="calculatePi:AlgorithmInfo">
-                        <TextBlock Text="{Binding Name}"></TextBlock>
-                    </DataTemplate>                
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <HyperlinkButton Name="AlgorithmWebPage" Margin="10, 0, 0, 0">Web Page</HyperlinkButton>
+            <StackPanel Orientation="Horizontal">
+                <Label Target="AlgorithmComboBox">_Algorithm:</Label>
+                <ComboBox Name="AlgorithmComboBox" Margin="10, 0, 0, 0" 
+                          ItemsSource="{Binding AlgorithmInfos}"
+                          SelectionChanged="Algorithms_OnSelectionChanged"
+                          IsEnabled="{Binding !IsCalculating}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="calculatePi:AlgorithmInfo">
+                            <TextBlock Text="{Binding Name}"></TextBlock>
+                        </DataTemplate>                
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <HyperlinkButton Name="AlgorithmWebPage" Margin="10, 0, 0, 0">Web Page</HyperlinkButton>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="30, 0, 0, 0">
+                <Label Target="Digits"># _Digits:</Label>
+                <NumericUpDown Name="Digits" Minimum="1" Maximum="10,000,000" Value="100" Width="200" FormatString="N0"
+                               ValueChanged="Digits_OnValueChanged" Margin="10, 0, 0, 0"
+                               IsEnabled="{Binding !IsCalculating}">
+                </NumericUpDown>
+            </StackPanel>
         </StackPanel>
         
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="0, 10, 0, 10">
-            <Label Target="Digits"># _Digits:</Label>
-            <NumericUpDown Name="Digits" Minimum="1" Maximum="10,000,000" Value="100" Width="200" FormatString="N0"
-                           ValueChanged="Digits_OnValueChanged" Margin="10, 0, 0, 0"
-                           IsEnabled="{Binding !IsCalculating}">
-            </NumericUpDown>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="_Calculate" Name="CalculateButton"
+                        HorizontalAlignment="Center" VerticalAlignment="Bottom" IsCancel="True" IsDefault="True"
+                        Click="CalculateButton_OnClick" Margin="0, 0, 10, 0"
+                        IsEnabled="{Binding !IsCalculating}">
+                </Button>
+                <Button Content="Ca_ncel" Name="CancelButton" IsEnabled="{Binding CanCancel}" Click="CancelButton_OnClick" />
+                <Button Content="C_opy" Name="CopyButton" IsEnabled="{Binding #Result.Content, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" Click="CopyButton_OnClick" Margin="20, 0, 0, 0" />
+            </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="0, 10, 0, 10">
-            <Button Content="_Calculate" Name="CalculateButton"
-                    HorizontalAlignment="Center" VerticalAlignment="Bottom" IsCancel="True" IsDefault="True"
-                    Click="CalculateButton_OnClick" Margin="0, 0, 10, 0"
-                    IsEnabled="{Binding !IsCalculating}">
-            </Button>
-            <Button Content="Ca_ncel" Name="CancelButton" IsEnabled="{Binding CanCancel}" Click="CancelButton_OnClick" />
-            <Button Content="C_opy" Name="CopyButton" IsEnabled="{Binding #Result.Content, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" Click="CopyButton_OnClick" Margin="20, 0, 0, 0" />
-        </StackPanel>
-
-        <ScrollViewer Grid.Row="3" Grid.Column="0">
+        <ScrollViewer Grid.Row="2" Grid.Column="0">
             <Label Name="Result" FontFamily="Lucida Console" Margin="0, 10, 0, 10"></Label>
         </ScrollViewer>
 
-        <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Vertical">
+        <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Vertical">
             <Label Name="Status" FontFamily="Lucida Console" Margin="0, 10, 0, 10" Background="DarkSlateGray" Foreground="White" Content=" "></Label>
         </StackPanel>
 
