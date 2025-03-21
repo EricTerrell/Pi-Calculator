@@ -20,7 +20,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     public List<AlgorithmInfo> AlgorithmInfos => _calculatePiFactory.AlgorithmInfos;
 
-    public event PropertyChangedEventHandler? PropertyChanged;
+    public new event PropertyChangedEventHandler? PropertyChanged;
 
     private void OnPropertyChanged([CallerMemberName] string name = "") =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
@@ -42,14 +42,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     public bool CanCancel 
     { 
         get => _canCancel;
-        
         private set
         {
             _canCancel = value;
             OnPropertyChanged();
         } 
     }
-
     
     public MainWindow()
     {
