@@ -1,8 +1,7 @@
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
 namespace Pi_Calculator;
 
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using System;
 using System.Threading;
@@ -83,7 +82,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 .CreatePiCalculator(name)
                 .Pi(digits, _cancellationSource, progress));
 
-            Result.Content = $"π =\n\n{result.digits}";
+            Result.Content = $"π ≈\n\n{result.digits}";
             Status.Content = $"Elapsed Time: {result.runtime}";
         }
         catch (CancelException)
