@@ -10,21 +10,6 @@ public class CalculatePiMachin : CalculatePi
     public override AlgorithmInfo AlgorithmInfo => 
         new("Machin", "https://www.cygnus-software.com/misc/pidigits.htm");
 
-    private static int LeadingZeros(BigDecimal x)
-    {
-        var str = x.ToString();
-
-        for (var i = 2; i < str.Length; i++)
-        {
-            if (str[i] != '0')
-            {
-                return i - 2;
-            }
-        }
-
-        return str.Length;
-    }
-    
     private static BigDecimal ATanInvInt(int x, CancellationTokenSource? cancellationTokenSource, IProgress<string>? progress, ref int iterations)
     {
         var result = BigDecimal.Divide(new BigDecimal(1), new BigDecimal(x));
@@ -34,8 +19,10 @@ public class CalculatePiMachin : CalculatePi
         var divisor = new BigDecimal(1);
 
         var two = new BigDecimal(2);
+
+        var maxValue = BigDecimal.Pow(10, -BigDecimal.Precision);
         
-        while (LeadingZeros(term) < BigDecimal.Precision)
+        while (term > maxValue)
         {
             if (cancellationTokenSource != null && cancellationTokenSource.IsCancellationRequested)
             {
