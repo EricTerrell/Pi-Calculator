@@ -25,7 +25,7 @@ public class CalculatePiMachin : CalculatePi
         return str.Length;
     }
     
-    private static BigDecimal ATanInvInt(int x, IProgress<string>? progress, ref int iterations)
+    private static BigDecimal ATanInvInt(int x, CancellationTokenSource? cancellationTokenSource, IProgress<string>? progress, ref int iterations)
     {
         var result = BigDecimal.Divide(new BigDecimal(1), new BigDecimal(x));
         var xSquared = new BigDecimal(x * x);
@@ -37,6 +37,11 @@ public class CalculatePiMachin : CalculatePi
         
         while (LeadingZeros(term) < BigDecimal.Precision)
         {
+            if (cancellationTokenSource != null && cancellationTokenSource.IsCancellationRequested)
+            {
+                throw new CancelException();
+            }
+
             divisor = BigDecimal.Add(divisor, two);
 
             term = BigDecimal.Divide(term,xSquared);
@@ -64,11 +69,14 @@ public class CalculatePiMachin : CalculatePi
         numberOfDigits += 2; // want to calculate digits to the right of "3.".
 
         var iterations = 0;
+
+        var ataninvint5 = ATanInvInt(5, cancellationTokenSource, progress, ref iterations);
+        var ataninvint239 = ATanInvInt(239, cancellationTokenSource, progress, ref iterations);
         
         var digits = BigDecimal.Multiply(
             BigDecimal.Subtract(
-            BigDecimal.Multiply(ATanInvInt(5, progress, ref iterations), new BigDecimal(4)),
-            ATanInvInt(239, progress, ref iterations)),
+            BigDecimal.Multiply(ataninvint5, new BigDecimal(4)),
+            ataninvint239),
             new BigDecimal(4));
                 
         return $"3{digits.ToString().Substring(2, numberOfDigits - 2)}";

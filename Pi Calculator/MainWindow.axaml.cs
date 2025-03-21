@@ -1,3 +1,6 @@
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
 namespace Pi_Calculator;
 
 using System.Collections.Generic;
@@ -8,7 +11,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Calculate_Pi;
 
-public partial class MainWindow : Window
+public partial class MainWindow : Window, INotifyPropertyChanged
 {
     private CancellationTokenSource? _cancellationSource;
 
@@ -18,6 +21,37 @@ public partial class MainWindow : Window
 
     public List<AlgorithmInfo> AlgorithmInfos => _calculatePiFactory.AlgorithmInfos;
 
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void OnPropertyChanged([CallerMemberName] string name = "") =>
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+    private bool _isCalculating;
+    
+    public bool IsCalculating 
+    { 
+        get => _isCalculating;
+        private set
+        {
+            _isCalculating = value;
+            OnPropertyChanged();
+        } 
+    }
+
+    private bool _canCancel;
+    
+    public bool CanCancel 
+    { 
+        get => _canCancel;
+        
+        private set
+        {
+            _canCancel = value;
+            OnPropertyChanged();
+        } 
+    }
+
+    
     public MainWindow()
     {
         InitializeComponent();
@@ -30,14 +64,11 @@ public partial class MainWindow : Window
     {
         try
         {
+            IsCalculating = true;
+            CanCancel = true;
+            
             Result.Content = string.Empty;
             
-            CalculateButton.IsEnabled = false;
-            Digits.IsEnabled = false;
-            AlgorithmComboBox.IsEnabled = false;
-
-            CancelButton.IsEnabled = true;
-
             Status.Content = "Calculating...";
 
             var digits = (int)Digits.Value.GetValueOrDefault();
@@ -67,12 +98,8 @@ public partial class MainWindow : Window
         {
             _cancellationSource?.Dispose();
             
-            CalculateButton.IsEnabled = true;
-            Digits.IsEnabled = true;
-            CopyButton.IsEnabled = true;
-            AlgorithmComboBox.IsEnabled = true;
-            
-            CancelButton.IsEnabled = false;
+            IsCalculating = false;
+            CanCancel = false;
         }
     }
 
@@ -80,13 +107,11 @@ public partial class MainWindow : Window
     {
         Result.Content = string.Empty;
         Status.Content = string.Empty;
-        
-        CopyButton.IsEnabled = false;
     }
 
     private void CancelButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        CancelButton.IsEnabled = false;
+        CanCancel = false;
         Status.Content = "Cancelling...";
         
         _cancellationStartTime = DateTime.Now;
