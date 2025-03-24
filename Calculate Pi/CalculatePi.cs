@@ -4,10 +4,10 @@ using System.Text;
 
 public abstract class CalculatePi
 {
-    private const int SpaceFreq = 10;
+    private const int SpaceFreq   =  10;
     private const int NewlineFreq = 100;
 
-    public virtual AlgorithmInfo AlgorithmInfo
+    public abstract AlgorithmInfo AlgorithmInfo
     {
         get;
     }
