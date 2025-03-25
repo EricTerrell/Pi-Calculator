@@ -10,7 +10,8 @@ public class CalculatePiMachin : CalculatePi
     public override AlgorithmInfo AlgorithmInfo => 
         new("Machin", "https://www.cygnus-software.com/misc/pidigits.htm");
 
-    private static BigDecimal ATanInvInt(int x, CancellationTokenSource? cancellationTokenSource, IProgress<string>? progress, ref int iterations)
+    private static BigDecimal ATanInvInt(int x, CancellationTokenSource? cancellationTokenSource, 
+        IProgress<string>? progress, ref int iterations)
     {
         var result = BigDecimal.Divide(new BigDecimal(1), new BigDecimal(x));
         var xSquared = new BigDecimal(x * x);

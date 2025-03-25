@@ -2,7 +2,8 @@
 
 public class CalculatePiFactory
 {
-    private readonly List<CalculatePi> _piCalculators = [new CalculatePiAndrewJennings(), new CalculatePiMachin()];
+    private readonly List<CalculatePi> _piCalculators = 
+        [new CalculatePiAndrewJennings(), new CalculatePiMachin(), new CalculatePiPlouffeBellard()];
 
     public List<AlgorithmInfo> AlgorithmInfos =>
         _piCalculators.Select(piCalculator => piCalculator.AlgorithmInfo).ToList();

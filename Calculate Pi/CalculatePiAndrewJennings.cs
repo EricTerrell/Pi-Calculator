@@ -11,8 +11,8 @@ public class CalculatePiAndrewJennings : CalculatePi
         "Andrew Jennings",
         "http://ajennings.net/blog/a-million-digits-of-pi-in-9-lines-of-javascript.html");
 
-    protected override string CalculatePiDigits(int digits, CancellationTokenSource? cancellationTokenSource, 
-        IProgress<string>? progress)
+    protected override string CalculatePiDigits(int digits, CancellationTokenSource? cancellationTokenSource = null, 
+        IProgress<string>? progress = null)
     {
         var i = BigInteger.One;
         var x = new BigInteger(3) * BigInteger.Pow(10, digits + 20);
