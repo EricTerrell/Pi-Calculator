@@ -2,9 +2,17 @@
 
 public class CalculatePiFactory
 {
-    private readonly List<CalculatePi> _piCalculators = 
-        [new CalculatePiAndrewJennings(), new CalculatePiMachin(), new CalculatePiPlouffeBellard()];
+    private readonly List<CalculatePi> _piCalculators;
 
+    public CalculatePiFactory()
+    {
+        _piCalculators = new List<CalculatePi>(
+            [new CalculatePiAndrewJennings(), new CalculatePiMachin(), new CalculatePiPlouffeBellard()]);
+        
+        _piCalculators.Sort((a, b) => 
+            a.AlgorithmInfo.Name.CompareTo(b.AlgorithmInfo.Name));
+    }
+    
     public List<AlgorithmInfo> AlgorithmInfos =>
         _piCalculators.Select(piCalculator => piCalculator.AlgorithmInfo).ToList();
 

@@ -12,7 +12,7 @@ using Calculate_Pi;
 
 public partial class MainWindow : Window, INotifyPropertyChanged
 {
-    private CancellationTokenSource? _cancellationSource;
+    private CancellationTokenSource? _cancellationTokenSource;
 
     private readonly CalculatePiFactory _calculatePiFactory = new();
     
@@ -61,29 +61,30 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     {
         try
         {
-            IsCalculating = true;
-            CanCancel = true;
-            
-            Result.Content = string.Empty;
-            
-            Status.Content = "Calculating...";
+            using (_cancellationTokenSource = new CancellationTokenSource())
+            {
+                IsCalculating = true;
+                CanCancel = true;
 
-            var digits = (int)Digits.Value.GetValueOrDefault();
+                Result.Content = string.Empty;
 
-            _cancellationSource = new CancellationTokenSource();
+                Status.Content = "Calculating...";
 
-            var progress = new Progress<string>(progressMessage => { Status.Content = progressMessage; });
+                var digits = (int)Digits.Value.GetValueOrDefault();
 
-            var name = ((AlgorithmInfo) AlgorithmComboBox.SelectedItem).Name;
-            
-            var result = await Task.Run(() => _calculatePiFactory
-                .CreatePiCalculator(name)
-                .Pi(digits, _cancellationSource, progress));
+                var progress = new Progress<string>(progressMessage => { Status.Content = progressMessage; });
 
-            Result.Content = $"π ≈\n\n{result.digits}";
-            Status.Content = $"Elapsed Time: {result.runtime}";
+                var name = ((AlgorithmInfo)AlgorithmComboBox.SelectedItem).Name;
+
+                var result = await Task.Run(() => _calculatePiFactory
+                    .CreatePiCalculator(name)
+                    .Pi(digits, _cancellationTokenSource.Token, progress));
+
+                Result.Content = $"π ≈\n\n{result.digits}";
+                Status.Content = $"Elapsed Time: {result.runtime}";
+            }
         }
-        catch (CancelException)
+        catch (OperationCanceledException)
         {
             Status.Content = $"Cancelled. Elapsed Time: {DateTime.Now - _cancellationStartTime}";
         }
@@ -93,8 +94,6 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         }
         finally
         {
-            _cancellationSource?.Dispose();
-            
             IsCalculating = false;
             CanCancel = false;
         }
@@ -114,7 +113,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         _cancellationStartTime = DateTime.Now;
         
         // Cancel the cancellation token
-        _cancellationSource?.Cancel();
+        _cancellationTokenSource?.Cancel();
     }
 
     private void CopyButton_OnClick(object? sender, RoutedEventArgs e)

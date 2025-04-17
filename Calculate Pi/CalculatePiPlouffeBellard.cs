@@ -25,17 +25,14 @@ public class CalculatePiPlouffeBellard : CalculatePi
     public override AlgorithmInfo AlgorithmInfo => new AlgorithmInfo("Plouffe / Bellard",
         "https://bellard.org/pi/pi.c");
 
-    protected override string CalculatePiDigits(int digits, CancellationTokenSource? cancellationTokenSource = null,
+    protected override string CalculatePiDigits(int digits, CancellationToken cancellationToken,
         IProgress<string>? progress = null)
     {
 	    var pi = new StringBuilder("3");
 
 	    for (var n = 1; n <= digits; n += DigitsReturned)
 	    {
-		    if (cancellationTokenSource != null && cancellationTokenSource.IsCancellationRequested)
-		    {
-			    throw new CancelException();
-		    }
+		    cancellationToken.ThrowIfCancellationRequested();
 
 		    var currentDigits = CalculatePiDigits(n);
 

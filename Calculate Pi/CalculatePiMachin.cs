@@ -10,7 +10,7 @@ public class CalculatePiMachin : CalculatePi
     public override AlgorithmInfo AlgorithmInfo => 
         new("Machin", "https://www.cygnus-software.com/misc/pidigits.htm");
 
-    private static BigDecimal ATanInvInt(int x, CancellationTokenSource? cancellationTokenSource, 
+    private static BigDecimal ATanInvInt(int x, CancellationToken cancellationToken, 
         IProgress<string>? progress, ref int iterations)
     {
         var result = BigDecimal.Divide(new BigDecimal(1), new BigDecimal(x));
@@ -25,10 +25,7 @@ public class CalculatePiMachin : CalculatePi
         
         while (term > maxValue)
         {
-            if (cancellationTokenSource != null && cancellationTokenSource.IsCancellationRequested)
-            {
-                throw new CancelException();
-            }
+            cancellationToken.ThrowIfCancellationRequested();
 
             divisor = BigDecimal.Add(divisor, two);
 
@@ -49,7 +46,7 @@ public class CalculatePiMachin : CalculatePi
     }
     
     protected override string CalculatePiDigits(int numberOfDigits, 
-        CancellationTokenSource? cancellationTokenSource = null,
+        CancellationToken cancellationToken,
         IProgress<string>? progress = null)
     {
         BigDecimal.Precision = numberOfDigits + 10;
@@ -58,8 +55,8 @@ public class CalculatePiMachin : CalculatePi
 
         var iterations = 0;
 
-        var ataninvint5 = ATanInvInt(5, cancellationTokenSource, progress, ref iterations);
-        var ataninvint239 = ATanInvInt(239, cancellationTokenSource, progress, ref iterations);
+        var ataninvint5 = ATanInvInt(5, cancellationToken, progress, ref iterations);
+        var ataninvint239 = ATanInvInt(239, cancellationToken, progress, ref iterations);
         
         var digits = BigDecimal.Multiply(
             BigDecimal.Subtract(

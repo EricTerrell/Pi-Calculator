@@ -12,19 +12,19 @@ public abstract class CalculatePi
         get;
     }
     
-    public (string digits, TimeSpan runtime) Pi(int digits, CancellationTokenSource? cancellationTokenSource = null, 
+    public (string digits, TimeSpan runtime) Pi(int digits, CancellationToken cancellationToken, 
         IProgress<string>? progress = null)
     {
         var startTime = DateTime.Now;
 
-        var pi = CalculatePiDigits(digits, cancellationTokenSource, progress);
+        var pi = CalculatePiDigits(digits, cancellationToken, progress);
         
         var result = Format(pi[..(digits + 1)]);
 
         return (result, DateTime.Now - startTime);
     }
 
-    protected abstract string CalculatePiDigits(int digits, CancellationTokenSource? cancellationTokenSource = null, 
+    protected abstract string CalculatePiDigits(int digits, CancellationToken cancellationToken, 
         IProgress<string>? progress = null); 
 
     private static string Format(string digits)

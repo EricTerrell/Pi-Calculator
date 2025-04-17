@@ -11,7 +11,7 @@ public class CalculatePiAndrewJennings : CalculatePi
         "Andrew Jennings",
         "http://ajennings.net/blog/a-million-digits-of-pi-in-9-lines-of-javascript.html");
 
-    protected override string CalculatePiDigits(int digits, CancellationTokenSource? cancellationTokenSource = null, 
+    protected override string CalculatePiDigits(int digits, CancellationToken cancellationToken, 
         IProgress<string>? progress = null)
     {
         var i = BigInteger.One;
@@ -24,10 +24,7 @@ public class CalculatePiAndrewJennings : CalculatePi
         
         while (x > BigInteger.Zero)
         {
-            if (cancellationTokenSource != null && cancellationTokenSource.IsCancellationRequested)
-            {
-                throw new CancelException();
-            }
+            cancellationToken.ThrowIfCancellationRequested();
             
             x = (x * i) / ((i + BigInteger.One) * bi4);
             pi += x / (i + bi2);

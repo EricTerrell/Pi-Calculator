@@ -1,4 +1,6 @@
-﻿namespace Calculate_Pi.Tests;
+﻿using System.Threading;
+
+namespace Calculate_Pi.Tests;
 
 using Calculate_Pi;
 using System.Collections.Generic;
@@ -13,14 +15,17 @@ public class CalculatePiTests
     
     private void test_calculate_pi(string expectedValue, int digits)
     {
-        _calculatePiFactory.AlgorithmInfos.ForEach(algorithm =>
+        using (var cancellationTokenSource = new CancellationTokenSource())
         {
-            var result = _calculatePiFactory
-                .CreatePiCalculator(algorithm.Name)
-                .Pi(digits).digits;
-                
-            Assert.AreEqual(expectedValue, result);
-        });
+            _calculatePiFactory.AlgorithmInfos.ForEach(algorithm =>
+            {
+                var result = _calculatePiFactory
+                    .CreatePiCalculator(algorithm.Name)
+                    .Pi(digits, cancellationTokenSource.Token).digits;
+
+                Assert.AreEqual(expectedValue, result);
+            });
+        }
     }
 
     [TestMethod]
@@ -46,15 +51,18 @@ public class CalculatePiTests
     private void test_algorithms_give_identical_results(int digits)
     {
         var values = new List<string>();
-            
-        _calculatePiFactory.AlgorithmInfos.ForEach(algorithm =>
+
+        using (var cancellationTokenSource = new CancellationTokenSource())
         {
-            var result = _calculatePiFactory
-                .CreatePiCalculator(algorithm.Name)
-                .Pi(digits).digits;
-            
-            values.Add(result);
-        });
+            _calculatePiFactory.AlgorithmInfos.ForEach(algorithm =>
+            {
+                var result = _calculatePiFactory
+                    .CreatePiCalculator(algorithm.Name)
+                    .Pi(digits, cancellationTokenSource.Token).digits;
+
+                values.Add(result);
+            });
+        }
 
         for (var i = 0; i < values.Count - 1; i++)
         {
