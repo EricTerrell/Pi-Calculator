@@ -3,7 +3,7 @@ Compute 𝛑 to a ludicrously high precision!
 
 # Requires
 
-.net 9.0 + Avalonia UI. Developed with JetBrains Rider IDE.
+.NET 9.0 + Avalonia UI. Developed with JetBrains Rider IDE.
 
 # Example
 
@@ -18,6 +18,26 @@ Uses these algorithms to calculate 𝛑:
 * [Andrew Jennings'](http://ajennings.net/blog/a-million-digits-of-pi-in-9-lines-of-javascript.html) Javascript code
 * [Cygnus Software's](https://www.cygnus-software.com/misc/pidigits.htm) technique
 * The [Plouffe / Bellard](https://bellard.org/pi/pi.c) algorithm
+
+# How to Build
+
+Go to the "Pi Calculator\\Pi Calculator\\deploy" folder. Run "deploy-all-framework-dependent.ps1" or
+"deploy-all-self-contained.ps1".
+
+The framework dependent build scripts will create relatively small executables,
+which will require that .NET 9 has already been installed.
+
+The self-contained scripts will create relatively large
+executables which will not require a previous .NET 9 installation.
+
+# Developers
+
+Pi Calculator was developed in the C# programming language, using [`Avalonia`](https://avaloniaui.net/platforms), which allows developers 
+to create .NET UI apps for Windows, Linux, and OSX.
+
+The app was developed with the [`JetBrains Rider`](https://www.jetbrains.com/rider/) IDE.
+
+After building the app, use the scripts in the "deploy" folder to generate the executable and dependencies.
 
 # References
 
