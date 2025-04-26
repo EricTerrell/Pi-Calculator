@@ -29,8 +29,13 @@ public class CalculatePiAndrewJennings : CalculatePi
             x = (x * i) / ((i + BigInteger.One) * bi4);
             pi += x / (i + bi2);
             i += bi2;
-            
-            progress?.Report($"{++iterations:N0} iterations");
+
+            iterations++;
+
+            if (iterations == 1 || iterations % 1_000 == 0)
+            {
+                progress?.Report($"{iterations:N0} iterations");
+            }
         }
 
         return pi.ToString()[..(digits + 1)];
